@@ -74,9 +74,11 @@ export default function UserFormModal({
       }
       onSuccess(); // Báo cho Component cha biết để fetch lại danh sách
       onClose(); // Đóng Modal
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // Cấu trúc lỗi chuẩn của Axios
+      const error = err as { response?: { data?: { message?: string } } };
       setError(
-        err.response?.data?.message || "Đã có lỗi xảy ra. Vui lòng thử lại.",
+        error.response?.data?.message || "Đã có lỗi xảy ra. Vui lòng thử lại.",
       );
     } finally {
       setIsSubmitting(false);

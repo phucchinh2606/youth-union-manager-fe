@@ -15,8 +15,8 @@ export const useUsers = () => {
       setUsers(data);
       setError("");
     } catch (err: unknown) {
-      // Dùng unknown thay vì any
-      const errorMessage = err instanceof Error ? err.message : "Có lỗi xảy ra";
+      // Thay vì dùng any, chúng ta log lỗi ra console để debug
+      console.error("Lỗi fetchUsers:", err);
       setError("Không thể tải danh sách đoàn viên. Vui lòng thử lại.");
     } finally {
       setIsLoading(false);
@@ -39,7 +39,8 @@ export const useUsers = () => {
       await userService.delete(id);
       fetchUsers(); // Xóa xong tự động tải lại danh sách
     } catch (err: unknown) {
-      const error = err as any; // Ép kiểu nếu bạn cần lấy message từ axios
+      // Ép kiểu err về dạng object có cấu trúc của Axios Error
+      const error = err as { response?: { data?: { message?: string } } };
       alert(error.response?.data?.message || "Lỗi khi xóa đoàn viên.");
     }
   };

@@ -39,11 +39,9 @@ export default function LoginPage() {
       // Đăng nhập thành công, chuyển hướng người dùng sang trang quản lý (dashboard)
       router.push("/dashboard");
     } catch (err: unknown) {
-      // Bắt lỗi từ Backend trả về (ví dụ: Sai mật khẩu, sai số điện thoại)
-      const error = err as any;
-      setError(
-        error.response?.data?.message || "Đã có lỗi xảy ra. Vui lòng thử lại.",
-      );
+      // Cấu trúc lỗi chuẩn của Axios
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || "Đăng nhập thất bại");
     } finally {
       setIsLoading(false);
     }
