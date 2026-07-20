@@ -38,10 +38,11 @@ export default function LoginPage() {
 
       // Đăng nhập thành công, chuyển hướng người dùng sang trang quản lý (dashboard)
       router.push("/dashboard");
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Bắt lỗi từ Backend trả về (ví dụ: Sai mật khẩu, sai số điện thoại)
+      const error = err as any;
       setError(
-        err.response?.data?.message || "Đã có lỗi xảy ra. Vui lòng thử lại.",
+        error.response?.data?.message || "Đã có lỗi xảy ra. Vui lòng thử lại.",
       );
     } finally {
       setIsLoading(false);

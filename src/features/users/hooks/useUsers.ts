@@ -14,7 +14,9 @@ export const useUsers = () => {
       const data = await userService.getAll();
       setUsers(data);
       setError("");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // Dùng unknown thay vì any
+      const errorMessage = err instanceof Error ? err.message : "Có lỗi xảy ra";
       setError("Không thể tải danh sách đoàn viên. Vui lòng thử lại.");
     } finally {
       setIsLoading(false);
@@ -36,8 +38,9 @@ export const useUsers = () => {
     try {
       await userService.delete(id);
       fetchUsers(); // Xóa xong tự động tải lại danh sách
-    } catch (err: any) {
-      alert(err.response?.data?.message || "Lỗi khi xóa đoàn viên.");
+    } catch (err: unknown) {
+      const error = err as any; // Ép kiểu nếu bạn cần lấy message từ axios
+      alert(error.response?.data?.message || "Lỗi khi xóa đoàn viên.");
     }
   };
 

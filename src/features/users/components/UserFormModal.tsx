@@ -9,6 +9,16 @@ interface UserFormModalProps {
   onSuccess: () => void; // Hàm gọi lại để tải lại danh sách khi lưu thành công
 }
 
+const DEFAULT_FORM = {
+  fullName: "",
+  gender: 0,
+  dateOfBirth: "",
+  phoneNumber: "",
+  password: "",
+  position: 0,
+  role: 0,
+};
+
 export default function UserFormModal({
   isOpen,
   onClose,
@@ -18,16 +28,7 @@ export default function UserFormModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const defaultForm = {
-    fullName: "",
-    gender: 0,
-    dateOfBirth: "",
-    phoneNumber: "",
-    password: "",
-    position: 0,
-    role: 0,
-  };
-  const [formData, setFormData] = useState(defaultForm);
+  const [formData, setFormData] = useState(DEFAULT_FORM);
 
   // Lắng nghe sự thay đổi của initialData để tự động điền form (Nếu là Sửa)
   useEffect(() => {
@@ -54,7 +55,7 @@ export default function UserFormModal({
         role: initialData.role === "Admin" ? 1 : 0,
       });
     } else {
-      setFormData(defaultForm); // Reset form nếu là Thêm mới
+      setFormData(DEFAULT_FORM); // Reset form nếu là Thêm mới
     }
   }, [initialData, isOpen]);
 
